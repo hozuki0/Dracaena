@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="glTFFile.cs" />
+    <Compile Include="Internal\AccessorChunk.cs" />
     <Compile Include="Internal\AnimationChunk.cs" />
     <Compile Include="Internal\AnimationSamplerChunk.cs" />
     <Compile Include="Internal\AssetChunk.cs" />
@@ -54,16 +55,23 @@
     <Compile Include="Internal\ChannelChunk.cs" />
     <Compile Include="Internal\glTFDataChunkBase.cs" />
     <Compile Include="Internal\ImageChunk.cs" />
+    <Compile Include="Internal\IndicesChunk.cs" />
+    <Compile Include="Internal\MaterialChunk.cs" />
     <Compile Include="Internal\MeshChunk.cs" />
     <Compile Include="Internal\NodeChunk.cs" />
+    <Compile Include="Internal\NormalTextureInfoChunk.cs" />
+    <Compile Include="Internal\OcclusionTextureInfoChunk.cs" />
     <Compile Include="Internal\OrthographicChunk.cs" />
+    <Compile Include="Internal\PBRMetallicRoughnessChunk.cs" />
     <Compile Include="Internal\PerspectiveChunk.cs" />
     <Compile Include="Internal\PrimitiveChunk.cs" />
     <Compile Include="Internal\SamplerChunk.cs" />
     <Compile Include="Internal\SceneChunk.cs" />
     <Compile Include="Internal\SkinChunk.cs" />
+    <Compile Include="Internal\SparseChunk.cs" />
     <Compile Include="Internal\TextureChunk.cs" />
     <Compile Include="Internal\TextureInfoChunk.cs" />
+    <Compile Include="Internal\ValuesChunk.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

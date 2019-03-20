@@ -33,6 +33,10 @@ namespace glTFIO
 
         public TextureInfoChunk[] TextureInfos { get; private set; }
 
+        public MaterialChunk[] Materials { get; private set; }
+
+        public AccessorChunk[] Accessors { get; set; }
+
         public glTFFile(string path)
         {
             using (var stream = new System.IO.StreamReader(path))
@@ -46,6 +50,7 @@ namespace glTFIO
                 Scenes = jobject["scenes"].ToObject<SceneChunk[]>();
                 Meshes = jobject["meshes"].ToObject<MeshChunk[]>();
                 Nodes = jobject["nodes"].ToObject<NodeChunk[]>();
+                Accessors = jobject["accessors"].ToObject<AccessorChunk[]>();
 
                 if (jobject.ContainsKey("animations"))
                 {
@@ -74,6 +79,10 @@ namespace glTFIO
                 if (jobject.ContainsKey("images"))
                 {
                     Images = jobject["images"].ToObject<ImageChunk[]>();
+                }
+                if (jobject.ContainsKey("materials"))
+                {
+                    Materials = jobject["materials"].ToObject<MaterialChunk[]>();
                 }
             }
         }
