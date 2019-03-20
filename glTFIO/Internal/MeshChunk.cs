@@ -9,7 +9,7 @@ namespace glTFIO.Internal
     public class MeshChunk : glTFDataChunkBase
     {
         public PrimitiveChunk[] Primitives { get; set; }
-        public int[] Weights { get; set; }
+        public float[] Weights { get; set; }
         public string Name { get; set; }
     }
 }

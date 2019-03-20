@@ -51,6 +51,8 @@
     <Compile Include="Internal\CameraChunk.cs" />
     <Compile Include="Internal\glTFDataChunkBase.cs" />
     <Compile Include="Internal\MeshChunk.cs" />
+    <Compile Include="Internal\OrthographicChunk.cs" />
+    <Compile Include="Internal\PerspectiveChunk.cs" />
     <Compile Include="Internal\PrimitiveChunk.cs" />
     <Compile Include="Internal\SceneChunk.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
