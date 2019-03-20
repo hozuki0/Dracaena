@@ -4,6 +4,7 @@ using System.Linq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using glTFIO.Internal;
+using System.Collections.Generic;
 
 namespace glTFIO
 {
@@ -15,7 +16,11 @@ namespace glTFIO
 
         public BufferChunk[] Buffers { get; private set; }
 
+        // RESEARCH: Scene が複数ってどんな状況？
         public SceneChunk[] Scenes { get; private set; }
+        public ISceneObject RootObject { get; private set; }
+        public IEnumerable<ISceneObject> SceneObjects => RootObject.Children
+                                                                .SelectMany(n => n.Children);
 
         public CameraChunk[] Cameras { get; private set; }
 
@@ -85,6 +90,77 @@ namespace glTFIO
                     Materials = jobject["materials"].ToObject<MaterialChunk[]>();
                 }
             }
+
+            //Dictionary<BufferViewChunk, byte[]> bufferDict = new Dictionary<BufferViewChunk, byte[]>();
+            //foreach (var view in BufferViews)
+            //{
+            //    using (var stream = new System.IO.FileStream(Buffers[view.Buffer].Uri, System.IO.FileMode.Open))
+            //    using (var reader = new System.IO.BinaryReader(stream))
+            //    {
+            //        // offsetがあるとき読み捨てる
+            //        if (view.ByteOffset.HasValue)
+            //        {
+            //            reader.ReadBytes(view.ByteOffset.Value);
+            //        }
+            //        bufferDict.Add(view, reader.ReadBytes(view.ByteLength));
+            //    }
+            //}
+
+            BuildScene();
+        }
+
+        private void BuildScene()
+        {
+            var topNode = Nodes.First();
+            if (topNode.Children == null)
+            {
+                if (!topNode.Mesh.HasValue) throw new Exception("Scene Has No Object");
+                var mesh = new MeshObject(null);
+                BuildMesh(topNode, Meshes[topNode.Mesh.Value], mesh);
+                RootObject = mesh;
+                return;
+            }
+
+
+            var root = new RootObject();
+
+            for (int i = 0; i < 4; i++)
+            {
+                for (int j = 0; j < 4; j++)
+                {
+                    root.Matrix[i][j] = Nodes[0].Matrix[i * 4 + j];
+                }
+            }
+            RootObject = root;
+
+            foreach (var item in topNode.Children)
+            {
+                BuildNode(Nodes[item], topNode, RootObject);
+            }
+        }
+
+        private void BuildNode(NodeChunk node, NodeChunk parentNode, ISceneObject parentObject)
+        {
+            ISceneObject scenedObject = null;
+            // mesh
+            if (node.Mesh.HasValue)
+            {
+                scenedObject = new MeshObject(parentObject);
+            }
+            foreach (var item in parentNode.Children)
+            {
+                if (scenedObject == null) continue;
+                parentObject.Children.Add(scenedObject);
+                BuildNode(Nodes[item], node, scenedObject);
+            }
+        }
+
+        private void BuildMesh(NodeChunk nodeChunk, MeshChunk meshChunk, MeshObject meshObject)
+        {
+            meshObject.Translation = nodeChunk.Translation;
+            meshObject.Rotation = nodeChunk.Rotation;
+            meshObject.Scaling = nodeChunk.Scale;
+            meshObject.MeshInfo = meshChunk;
         }
     }
 

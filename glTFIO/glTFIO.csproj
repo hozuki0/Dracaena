@@ -72,7 +72,10 @@
     <Compile Include="Internal\TextureChunk.cs" />
     <Compile Include="Internal\TextureInfoChunk.cs" />
     <Compile Include="Internal\ValuesChunk.cs" />
+    <Compile Include="ISceneObject.cs" />
+    <Compile Include="MeshObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RootObject.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
