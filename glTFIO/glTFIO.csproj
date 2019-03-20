@@ -45,6 +45,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="glTFFile.cs" />
+    <Compile Include="Internal\AssetChunk.cs" />
+    <Compile Include="Internal\BufferChunk.cs" />
+    <Compile Include="Internal\BufferViewChunk.cs" />
+    <Compile Include="Internal\SceneChunk.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

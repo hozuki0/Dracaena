@@ -10,8 +10,8 @@ namespace Dracaena
     {
         static void Main(string[] args)
         {
-            var dir = @"C:\Working\Reference\glTF-Sample-Models\2.0\Box\glTF\";
-            var gltf = new glTFIO.glTFFile($"{dir}Box.gltf");
+            var dir = @"../../sample/";
+            var gltf = new glTFIO.glTFFile($"{dir}Box/gltf/Box.gltf");
             Console.Read();
         }
     }

@@ -1,7 +1,7 @@
 {
     "asset": {
-        "generator": "COLLADA2GLTF",
-        "version": "2.0"
+        "version": "2.0",
+        "generator": "glTF Tools for Unity",
     },
     "scene": 0,
     "scenes": [
