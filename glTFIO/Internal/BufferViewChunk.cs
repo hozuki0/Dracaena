@@ -9,8 +9,12 @@ namespace glTFIO.Internal
     public class BufferViewChunk
     {
         public int Buffer { get; set; }
-        public int ByteOffset { get; set; }
-        public int ByteLength { get; set; }
-        public int Target { get; set; }
+        public int ByteOffset { get; set; } = 0;
+        public int? ByteLength { get; set; }
+        public int? ByteStride { get; set; }
+        public int? Target { get; set; }
+        public string Name { get; set; }
+        public object Extensions { get; set; }
+        public object Any { get; set; }
     }
 }

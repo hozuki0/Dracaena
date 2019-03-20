@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace glTFIO.Internal
 {
-    public class BufferChunk
+    public class SceneChunk
     {
-        public int? ByteLength { get; set; }
-        public string Uri { get; set; }
+        public uint[] Nodes { get; set; }
         public string Name { get; set; }
         public object Extensions { get; set; }
         public object Extras { get; set; }

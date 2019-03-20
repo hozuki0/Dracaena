@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Linq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -14,29 +16,51 @@ namespace glTFIO
                 var jobject = JObject.Parse(allglTF);
 
                 var asset = jobject["asset"].ToObject<Internal.AssetChunk>();
-                Console.WriteLine($"{nameof(asset.Generator)}:{asset.Generator}");
-                Console.WriteLine($"{nameof(asset.Version)}:{asset.Version}");
+                ShowAllMember(asset);
 
                 var bufferViews = jobject["bufferViews"].ToObject<Internal.BufferViewChunk[]>();
-                foreach (var item in bufferViews)
-                {
-                    Console.WriteLine($"{nameof(item.Buffer)}:{item.Buffer}");
-                    Console.WriteLine($"{nameof(item.ByteLength)}:{item.ByteLength}");
-                    Console.WriteLine($"{nameof(item.ByteOffset)}:{item.ByteOffset}");
-                    Console.WriteLine($"{nameof(item.Target)}:{item.Target}");
-                }
-                var buffers = jobject["buffers"].ToObject<Internal.BufferChunk[]>();
-                foreach(var item in buffers)
-                {
-                    Console.WriteLine($"{nameof(item.ByteLength)}:{item.ByteLength}");
-                    Console.WriteLine($"{nameof(item.Uri)}:{item.Uri}");
-                }
+                ShowAllMember(bufferViews);
 
-                //foreach(var item in jobject)
-                //{
-                //    Console.WriteLine(item);
-                //}
+                var buffers = jobject["buffers"].ToObject<Internal.BufferChunk[]>();
+                ShowAllMember(buffers);
+
+                var scenes = jobject["scenes"].ToObject<Internal.SceneChunk[]>();
+                ShowAllMember(scenes);
+
+
+            }
+        }
+        private static void ShowAllMember<T>(T value)
+        {
+            Console.WriteLine($"--{value.GetType()}Begin--");
+
+            var props = value.GetType().GetProperties();
+            foreach (var p in props)
+            {
+                if (p.PropertyType.IsArray)
+                {
+                    var arr = value.GetType().InvokeMember(p.Name, System.Reflection.BindingFlags.GetProperty, null, value, null) as IEnumerable;
+                    foreach (var item in arr)
+                    {
+                        Console.WriteLine($"{p.Name}:{item}");
+                    }
+                }
+                else
+                {
+                    var v = value.GetType().InvokeMember(p.Name, System.Reflection.BindingFlags.GetProperty, null, value, null);
+                    Console.WriteLine($"{p.Name}:{v}");
+                }
+            }
+
+            Console.WriteLine($"--{value.GetType()}End--\n");
+        }
+        private static void ShowAllMember<T>(T[] values)
+        {
+            foreach (var item in values)
+            {
+                ShowAllMember(item);
             }
         }
     }
+
 }
