@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 
 namespace glTFIO.Internal
 {
-    public class SceneChunk : glTFDataChunkBase
+    public class CameraChunk : glTFDataChunkBase
     {
-        public uint[] Nodes { get; set; }
+        public object Orthographic { get; set; }
+        public object Perspective { get; set; }
+        public string Type { get; set; }
         public string Name { get; set; }
     }
 }

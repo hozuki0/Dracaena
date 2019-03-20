@@ -48,6 +48,10 @@
     <Compile Include="Internal\AssetChunk.cs" />
     <Compile Include="Internal\BufferChunk.cs" />
     <Compile Include="Internal\BufferViewChunk.cs" />
+    <Compile Include="Internal\CameraChunk.cs" />
+    <Compile Include="Internal\glTFDataChunkBase.cs" />
+    <Compile Include="Internal\MeshChunk.cs" />
+    <Compile Include="Internal\PrimitiveChunk.cs" />
     <Compile Include="Internal\SceneChunk.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

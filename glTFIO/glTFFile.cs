@@ -3,11 +3,24 @@ using System.Collections;
 using System.Linq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using glTFIO.Internal;
 
 namespace glTFIO
 {
     public class glTFFile
     {
+        public AssetChunk Asset { get; private set; }
+
+        public BufferViewChunk[] BufferViews { get; private set; }
+
+        public BufferChunk[] Buffers { get; private set; }
+
+        public SceneChunk[] Scenes { get; private set; }
+
+        public CameraChunk Camera { get; set; }
+
+        public MeshChunk[] Meshes { get; set; }
+
         public glTFFile(string path)
         {
             using (var stream = new System.IO.StreamReader(path))
@@ -15,50 +28,16 @@ namespace glTFIO
                 var allglTF = stream.ReadToEnd();
                 var jobject = JObject.Parse(allglTF);
 
-                var asset = jobject["asset"].ToObject<Internal.AssetChunk>();
-                ShowAllMember(asset);
+                Asset = jobject["asset"].ToObject<AssetChunk>();
+                BufferViews = jobject["bufferViews"].ToObject<BufferViewChunk[]>();
+                Buffers = jobject["buffers"].ToObject<BufferChunk[]>();
+                Scenes = jobject["scenes"].ToObject<SceneChunk[]>();
+                Meshes = jobject["meshes"].ToObject<MeshChunk[]>();
 
-                var bufferViews = jobject["bufferViews"].ToObject<Internal.BufferViewChunk[]>();
-                ShowAllMember(bufferViews);
-
-                var buffers = jobject["buffers"].ToObject<Internal.BufferChunk[]>();
-                ShowAllMember(buffers);
-
-                var scenes = jobject["scenes"].ToObject<Internal.SceneChunk[]>();
-                ShowAllMember(scenes);
-
-
-            }
-        }
-        private static void ShowAllMember<T>(T value)
-        {
-            Console.WriteLine($"--{value.GetType()}Begin--");
-
-            var props = value.GetType().GetProperties();
-            foreach (var p in props)
-            {
-                if (p.PropertyType.IsArray)
+                if (jobject.ContainsKey("camera"))
                 {
-                    var arr = value.GetType().InvokeMember(p.Name, System.Reflection.BindingFlags.GetProperty, null, value, null) as IEnumerable;
-                    foreach (var item in arr)
-                    {
-                        Console.WriteLine($"{p.Name}:{item}");
-                    }
+                    Camera = jobject["camera"].ToObject<CameraChunk>();
                 }
-                else
-                {
-                    var v = value.GetType().InvokeMember(p.Name, System.Reflection.BindingFlags.GetProperty, null, value, null);
-                    Console.WriteLine($"{p.Name}:{v}");
-                }
-            }
-
-            Console.WriteLine($"--{value.GetType()}End--\n");
-        }
-        private static void ShowAllMember<T>(T[] values)
-        {
-            foreach (var item in values)
-            {
-                ShowAllMember(item);
             }
         }
     }

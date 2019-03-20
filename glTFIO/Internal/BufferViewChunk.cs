@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace glTFIO.Internal
 {
-    public class BufferViewChunk
+    public class BufferViewChunk : glTFDataChunkBase
     {
         public int Buffer { get; set; }
         public int ByteOffset { get; set; } = 0;
@@ -14,7 +14,5 @@ namespace glTFIO.Internal
         public int? ByteStride { get; set; }
         public int? Target { get; set; }
         public string Name { get; set; }
-        public object Extensions { get; set; }
-        public object Any { get; set; }
     }
 }

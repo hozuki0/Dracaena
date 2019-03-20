@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace glTFIO.Internal
 {
-    public class SceneChunk : glTFDataChunkBase
+    public class glTFDataChunkBase
     {
-        public uint[] Nodes { get; set; }
-        public string Name { get; set; }
+        public Dictionary<string, object> Extensions { get; set; }
+        public object Extras { get; set; }
     }
 }

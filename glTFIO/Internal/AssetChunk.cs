@@ -6,13 +6,11 @@ using System.Threading.Tasks;
 
 namespace glTFIO.Internal
 {
-    public class AssetChunk
+    public class AssetChunk : glTFDataChunkBase
     {
         public string Copyright { get; set; }
         public string Generator { get; set; }
         public string Version { get; set; }
         public string MinVersion { get; set; }
-        public object Extensions { get; set; }
-        public object Extras { get; set; }
     }
 }
