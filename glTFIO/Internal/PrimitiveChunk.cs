@@ -12,6 +12,6 @@ namespace glTFIO.Internal
         public int? Indices { get; set; }
         public int? Material { get; set; }
         public int? Mode { get; set; } = 4;
-        public Dictionary<string, object> Targets { get; set; }
+        public Dictionary<string, object>[] Targets { get; set; }
     }
 }

@@ -23,6 +23,20 @@ namespace glTFIOTest
             Assert.IsNotNull(gltf);
             ShowChunk(gltf);
         }
+        [TestMethod]
+        public void LoadAnimationCube()
+        {
+            var gltf = Load(@"C:\Working\Reference\glTF-Sample-Models\2.0\AnimatedCube\glTF\AnimatedCube.gltf");
+            Assert.IsNotNull(gltf);
+            ShowChunk(gltf);
+        }
+        [TestMethod]
+        public void LoadAnimationMorphSphere()
+        {
+            var gltf = Load(@"C:\Working\Reference\glTF-Sample-Models\2.0\AnimatedMorphSphere\glTF\AnimatedMorphSphere.gltf");
+            Assert.IsNotNull(gltf);
+            ShowChunk(gltf);
+        }
 
         private glTFIO.glTFFile Load(string filePath)
         {

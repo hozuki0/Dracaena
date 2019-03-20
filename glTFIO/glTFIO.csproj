@@ -45,10 +45,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="glTFFile.cs" />
+    <Compile Include="Internal\AnimationChunk.cs" />
+    <Compile Include="Internal\AnimationSamplerChunk.cs" />
     <Compile Include="Internal\AssetChunk.cs" />
     <Compile Include="Internal\BufferChunk.cs" />
     <Compile Include="Internal\BufferViewChunk.cs" />
     <Compile Include="Internal\CameraChunk.cs" />
+    <Compile Include="Internal\ChannelChunk.cs" />
     <Compile Include="Internal\glTFDataChunkBase.cs" />
     <Compile Include="Internal\ImageChunk.cs" />
     <Compile Include="Internal\MeshChunk.cs" />
@@ -56,7 +59,11 @@
     <Compile Include="Internal\OrthographicChunk.cs" />
     <Compile Include="Internal\PerspectiveChunk.cs" />
     <Compile Include="Internal\PrimitiveChunk.cs" />
+    <Compile Include="Internal\SamplerChunk.cs" />
     <Compile Include="Internal\SceneChunk.cs" />
+    <Compile Include="Internal\SkinChunk.cs" />
+    <Compile Include="Internal\TextureChunk.cs" />
+    <Compile Include="Internal\TextureInfoChunk.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
