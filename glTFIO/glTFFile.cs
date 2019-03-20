@@ -35,7 +35,7 @@ namespace glTFIO
 
         public MaterialChunk[] Materials { get; private set; }
 
-        public AccessorChunk[] Accessors { get; set; }
+        public AccessorChunk[] Accessors { get; private set; }
 
         public glTFFile(string path)
         {
