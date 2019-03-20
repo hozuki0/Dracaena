@@ -10,5 +10,7 @@ namespace glTFIO
     {
         ISceneObject Parent { get; }       // Parent == null => Top
         List<ISceneObject> Children { get; set; }
+        string Name { get; set; }
+        float[][] Matrix { get; set; }
     }
 }

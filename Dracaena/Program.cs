@@ -12,7 +12,7 @@ namespace Dracaena
         {
             var dir = @"../../sample/";
             var gltf = new glTFIO.glTFFile($"{dir}Avocado/gltf/Avocado.gltf");
-            Console.Read();
+            //Console.Read();
         }
     }
 }

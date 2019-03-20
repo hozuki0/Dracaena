@@ -9,7 +9,7 @@ namespace glTFIO.Internal
     public class NodeChunk : glTFDataChunkBase
     {
         public int? Camera { get; set; }
-        public int[] Children { get; set; }
+        public int[] Children { get; set; } = new int[0];
         public int? Skin { get; set; }
         public float[] Matrix { get; set; } = new float[16] { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1 };
         public int? Mesh { get; set; }

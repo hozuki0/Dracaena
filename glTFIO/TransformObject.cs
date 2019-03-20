@@ -6,9 +6,17 @@ using System.Threading.Tasks;
 
 namespace glTFIO
 {
-    public class RootObject : ISceneObject
+    public class TransformObject : ISceneObject
     {
-        public ISceneObject Parent { get => null; }
+        public TransformObject()
+        {
+        }
+        public TransformObject(ISceneObject parent)
+        {
+            this.parent = parent;
+        }
+        private ISceneObject parent;
+        public ISceneObject Parent { get => parent; }
         public List<ISceneObject> Children { get; set; } = new List<ISceneObject>();
         public float[][] Matrix { get; set; } = new float[4][]
          {
@@ -17,5 +25,6 @@ namespace glTFIO
                 new float[4]{0,0,1,0},
                 new float[4]{0,0,0,1}
          };
+        public string Name { get; set; } = "Root";
     }
 }

@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CameraObject.cs" />
     <Compile Include="glTFFile.cs" />
     <Compile Include="Internal\AccessorChunk.cs" />
     <Compile Include="Internal\AnimationChunk.cs" />
@@ -74,8 +75,9 @@
     <Compile Include="Internal\ValuesChunk.cs" />
     <Compile Include="ISceneObject.cs" />
     <Compile Include="MeshObject.cs" />
+    <Compile Include="ParsingUtility.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RootObject.cs" />
+    <Compile Include="TransformObject.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

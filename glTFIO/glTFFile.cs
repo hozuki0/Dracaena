@@ -19,8 +19,8 @@ namespace glTFIO
         // RESEARCH: Scene が複数ってどんな状況？
         public SceneChunk[] Scenes { get; private set; }
         public ISceneObject RootObject { get; private set; }
-        public IEnumerable<ISceneObject> SceneObjects => RootObject.Children
-                                                                .SelectMany(n => n.Children);
+        private List<ISceneObject> sceneObjects;
+        public List<ISceneObject> SceneObjects => sceneObjects;
 
         public CameraChunk[] Cameras { get; private set; }
 
@@ -107,12 +107,24 @@ namespace glTFIO
             //}
 
             BuildScene();
+
+            sceneObjects = new List<ISceneObject>();
+            CollectSceneObjectList(RootObject);
+        }
+
+        private void CollectSceneObjectList(ISceneObject parent)
+        {
+            sceneObjects.Add(parent);
+            foreach (var item in parent.Children)
+            {
+                CollectSceneObjectList(item);
+            }
         }
 
         private void BuildScene()
         {
             var topNode = Nodes.First();
-            if (topNode.Children == null)
+            if (topNode.Children.Length == 0)
             {
                 if (!topNode.Mesh.HasValue) throw new Exception("Scene Has No Object");
                 var mesh = new MeshObject(null);
@@ -121,22 +133,19 @@ namespace glTFIO
                 return;
             }
 
-
-            var root = new RootObject();
-
-            for (int i = 0; i < 4; i++)
-            {
-                for (int j = 0; j < 4; j++)
-                {
-                    root.Matrix[i][j] = Nodes[0].Matrix[i * 4 + j];
-                }
-            }
-            RootObject = root;
-
+            RootObject = new TransformObject();
             foreach (var item in topNode.Children)
             {
                 BuildNode(Nodes[item], topNode, RootObject);
             }
+
+        }
+
+        private void BuildSceneObject(NodeChunk nodeChunk, ISceneObject sceneObject)
+        {
+            ParsingUtility.Copy4x4From16Array(sceneObject.Matrix, nodeChunk.Matrix);
+            if (nodeChunk.Name != null) sceneObject.Name = nodeChunk.Name;
+            else sceneObject.Name = "NoName" + sceneObject.GetType().Name;
         }
 
         private void BuildNode(NodeChunk node, NodeChunk parentNode, ISceneObject parentObject)
@@ -145,22 +154,44 @@ namespace glTFIO
             // mesh
             if (node.Mesh.HasValue)
             {
-                scenedObject = new MeshObject(parentObject);
+                var mesh = new MeshObject(parentObject);
+                BuildMesh(node, Meshes[node.Mesh.Value], mesh);
+                scenedObject = mesh;
             }
-            foreach (var item in parentNode.Children)
+            else if (node.Camera.HasValue)
             {
-                if (scenedObject == null) continue;
-                parentObject.Children.Add(scenedObject);
+                var camera = new CameraObject(parentObject);
+                BuildCamera(node, Cameras[node.Mesh.Value], camera);
+                scenedObject = camera;
+            }
+            else
+            {
+                var transform = new TransformObject(parentObject);
+                BuildSceneObject(node, transform);
+                scenedObject = transform;
+            }
+            // 現在は一旦CameraとMesh以外は無視
+            parentObject.Children.Add(scenedObject);
+
+            foreach (var item in node.Children)
+            {
                 BuildNode(Nodes[item], node, scenedObject);
             }
         }
 
         private void BuildMesh(NodeChunk nodeChunk, MeshChunk meshChunk, MeshObject meshObject)
         {
+            BuildSceneObject(nodeChunk, meshObject);
             meshObject.Translation = nodeChunk.Translation;
             meshObject.Rotation = nodeChunk.Rotation;
             meshObject.Scaling = nodeChunk.Scale;
             meshObject.MeshInfo = meshChunk;
+        }
+
+        private void BuildCamera(NodeChunk nodeChunk, CameraChunk cameraChunk, CameraObject cameraObject)
+        {
+            BuildSceneObject(nodeChunk, cameraObject);
+
         }
     }
 
