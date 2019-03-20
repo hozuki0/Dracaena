@@ -8,7 +8,7 @@ namespace glTFIO.Internal
 {
     public class PrimitiveChunk : glTFDataChunkBase
     {
-        public Dictionary<string, object> Attribute { get; set; }
+        public Dictionary<string, object> Attributes { get; set; }
         public int? Indices { get; set; }
         public int? Material { get; set; }
         public int? Mode { get; set; } = 4;

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -12,6 +13,13 @@ namespace glTFIOTest
         public void LoadBox()
         {
             var gltf = Load("../../../sample/Box/gltf/box.gltf");
+            Assert.IsNotNull(gltf);
+            ShowChunk(gltf);
+        }
+        [TestMethod]
+        public void LoadAvocado()
+        {
+            var gltf = Load("../../../sample/Avocado/gltf/Avocado.gltf");
             Assert.IsNotNull(gltf);
             ShowChunk(gltf);
         }
@@ -57,6 +65,22 @@ namespace glTFIOTest
                 {
                     ShowAllMember(v as IEnumerable);
                 }
+                else if (IsDictionary(p.PropertyType))
+                {
+                    var keys = v.GetType().InvokeMember("Keys", System.Reflection.BindingFlags.GetProperty, null, v, null) as IEnumerable;
+                    var values = v.GetType().InvokeMember("Values", System.Reflection.BindingFlags.GetProperty, null, v, null) as IEnumerable;
+                    var km = keys.GetEnumerator();
+                    var vm = values.GetEnumerator();
+                    km.Reset();
+                    vm.Reset();
+                    while (true)
+                    {
+                        if (!km.MoveNext() || !vm.MoveNext()) break;
+                        var k = km.Current;
+                        var n = vm.Current;
+                        Console.WriteLine($"{k}:{n}");
+                    }
+                }
                 else if (p.PropertyType.IsArray)
                 {
                     var arr = v as IEnumerable;
@@ -91,6 +115,15 @@ namespace glTFIOTest
         private static bool IsSubClassOfDataChunkArray(Type type)
         {
             return type.IsArray && type.GetElementType().IsSubclassOf(typeof(glTFIO.Internal.glTFDataChunkBase));
+        }
+
+        private static bool IsList(Type type)
+        {
+            return type.IsGenericType && type.GetGenericTypeDefinition() == typeof(List<>);
+        }
+        private static bool IsDictionary(Type type)
+        {
+            return type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Dictionary<,>);
         }
     }
 }

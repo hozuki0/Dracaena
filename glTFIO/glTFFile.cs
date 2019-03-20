@@ -17,9 +17,12 @@ namespace glTFIO
 
         public SceneChunk[] Scenes { get; private set; }
 
-        public CameraChunk Camera { get; set; }
+        public CameraChunk Camera { get; private set; }
+        public ImageChunk Image { get; private set; }
 
-        public MeshChunk[] Meshes { get; set; }
+        public MeshChunk[] Meshes { get; private set; }
+
+        public NodeChunk[] Nodes { get; private set; }
 
         public glTFFile(string path)
         {
@@ -33,10 +36,15 @@ namespace glTFIO
                 Buffers = jobject["buffers"].ToObject<BufferChunk[]>();
                 Scenes = jobject["scenes"].ToObject<SceneChunk[]>();
                 Meshes = jobject["meshes"].ToObject<MeshChunk[]>();
+                Nodes = jobject["nodes"].ToObject<NodeChunk[]>();
 
                 if (jobject.ContainsKey("camera"))
                 {
                     Camera = jobject["camera"].ToObject<CameraChunk>();
+                }
+                if (jobject.ContainsKey("image"))
+                {
+                    Image = jobject["image"].ToObject<ImageChunk>();
                 }
             }
         }

@@ -11,7 +11,7 @@ namespace Dracaena
         static void Main(string[] args)
         {
             var dir = @"../../sample/";
-            var gltf = new glTFIO.glTFFile($"{dir}Box/gltf/Box.gltf");
+            var gltf = new glTFIO.glTFFile($"{dir}Avocado/gltf/Avocado.gltf");
             Console.Read();
         }
     }
